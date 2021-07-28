@@ -1,10 +1,14 @@
 package codeBabyTest
 
 import java.io._
+import java.nio.file.Files
 
 import DataStore.ReuseIdStore
+import Util.FileCopy
 import org.junit.{Assert, Test}
+import org.neo4j.dbms.api.DatabaseManagementServiceBuilder
 
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 
 class codeBabyTest {
@@ -148,6 +152,49 @@ class codeBabyTest {
     val msp: mutable.Map[Long,String] = mutable.Map()
     msp +=  (1.toLong->"1")
   }
+
+  @Test
+  def testLp(): Unit ={
+    val file = new File("D:\\CypherLog\\")
+    val path = new File(file, "testjkkl").getAbsolutePath
+    println(path)
+    val f3 = new File(path).mkdir()
+   // println()
+  }
+  @Test
+  def testLk(): Unit ={
+    //val dataVersion = "testr"
+    var file = new File("F:\\CNIC\\data\\" + "s001")
+
+    //val file = new File(dataPathName + dataVersion)
+    val managementService1 = new DatabaseManagementServiceBuilder(file).loadPropertiesFromFile("F:\\IdCode\\testDis\\"+"neo4j.conf").build()
+    //val managementService1 = new DatabaseManagementServiceBuilder(file)//.loadPropertiesFromFile("F:\\IdCode\\testDis\\"+"neo4j.conf").build()
+    //val db1 = managementService1.database("neo4j")
+    managementService1.createDatabase("tekl")
+    val sk = managementService1.listDatabases().asScala
+    sk.map(println)
+    //cypherStringArray.foreach(db.executeTransactionally)
+   // managementService1.shutdownDatabase("neo4j")
+    //println(db1.isAvailable())
+    //managementService1.startDatabase("test")
+    managementService1.shutdown()
+  }
+
+  @Test
+  def testFileCopy(): Unit ={
+    val path1: String = "D:\\CypherLog\\dir1"
+    val path2: String = "D:\\CypherLog\\dir2"
+    new File(path1).mkdirs()
+    new File(path2).mkdirs()
+    val fpr = Util.FptrFactory.getFptr(new File(path1, "test.txt"), "rw")
+    fpr.writeUTF("hello world")
+    fpr.close()
+
+    FileCopy.copyDir(new File(path1), new File(path2))
+
+
+  }
+
 
 
 }

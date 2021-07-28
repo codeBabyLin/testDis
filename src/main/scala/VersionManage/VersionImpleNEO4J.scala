@@ -31,8 +31,8 @@ class QueryQueryChangeImplNeo4j extends GraphDataVersion {
     val db = managementService.database("neo4j")
 
     //val c1 = "create(n:test{name:'haha', age:5})"
-    //db.executeTransactionally(c1)
-    //val c2 = "match(n) return n"
+    //    //db.executeTransactionally(c1)
+    //    //val c2 = "match(n) return n"
 
     val tr: ResultTransformer[String] = new ResultTransformer[String] {
       override def apply(t: Result): String = t.resultAsString()

@@ -2,7 +2,8 @@ package DataStore.EasyGraphStore
 
 import java.io.{File, RandomAccessFile}
 
-import DataStore.{DynamicStore, fptrFactory}
+import DataStore.DynamicStore
+import Util.FptrFactory
 
 
 class LabelNameStore(storeDir: File){
@@ -23,7 +24,7 @@ class LabelNameStore(storeDir: File){
 }
 
 class LabelNameMemoryStore(storeDir: File){
-  private val fptr: RandomAccessFile = fptrFactory.getFptr(new File(storeDir,"labelNameStore"), "rw")
+  private val fptr: RandomAccessFile = FptrFactory.getFptr(new File(storeDir,"labelNameStore"), "rw")
   private var labelStrings: Map[Long, String]  = Map()
   private var stringsLabel: Map[String, Long]  = Map()
   private var labelStringsize: Long = 0

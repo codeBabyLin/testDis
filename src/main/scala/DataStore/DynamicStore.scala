@@ -2,21 +2,13 @@ package DataStore
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, DataInputStream, DataOutputStream, File, RandomAccessFile}
 
+import Util.FptrFactory
+
 import scala.collection.mutable.ArrayBuffer
 
-object fptrFactory{
-  def getFptr(fileName: String, opMode: String): RandomAccessFile ={
-    val fileMetaFile1 = new File(fileName)
-    new RandomAccessFile(fileMetaFile1, opMode)
-  }
-
-  def getFptr(fileName: File, opMode: String): RandomAccessFile ={
-    new RandomAccessFile(fileName, opMode)
-  }
-}
 
 class ReuseIdStore(fileName: File, opMode: String){
-  val fptr: RandomAccessFile = fptrFactory.getFptr(fileName, opMode)
+  val fptr: RandomAccessFile = FptrFactory.getFptr(fileName, opMode)
   var reuseIdArray: ArrayBuffer[Long] = new ArrayBuffer[Long]()
   var reuseIdsize: Long = 0
   if(fptr.length() == 0){
@@ -57,7 +49,7 @@ class ReuseIdStore(fileName: File, opMode: String){
 }
 
 class DynamicBlockStore(fileName: File, opMode: String){
-  val fptr: RandomAccessFile = fptrFactory.getFptr(fileName, opMode)
+  val fptr: RandomAccessFile = FptrFactory.getFptr(fileName, opMode)
 
   def read(offset:Long, length: Long): Array[Byte] ={
     fptr.seek(offset)
@@ -83,7 +75,7 @@ class DynamicBlockStore(fileName: File, opMode: String){
 case class recordMeta(id: Long, status: Long, offset: Long, length: Long)
 
 class RecorderMetaStore(fileName: File, opMode: String){
-  val fptr: RandomAccessFile = fptrFactory.getFptr(fileName, opMode)
+  val fptr: RandomAccessFile = FptrFactory.getFptr(fileName, opMode)
 
   val METADATA_BLOCK_FOR_READ = new Array[Byte](Constans.recordMetalength)
 
